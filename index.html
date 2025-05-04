@@ -113,9 +113,24 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
 
   </li>
   </ul>
@@ -145,6 +160,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://timeentropy.github.io/2025/05/04/pecker_01.basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="TimeEntropy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TimeEntropy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/05/04/pecker_01.basic/" class="post-title-link" itemprop="url">对物理引擎的探索与思考：01.计算机在物理模拟上遇到的2大基本问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-05-04 12:25:24 / 修改时间：14:58:30" itemprop="dateCreated datePublished" datetime="2025-05-04T12:25:24+08:00">2025-05-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="连续性"><a href="#连续性" class="headerlink" title="连续性"></a>连续性</h2><p>物理建立在现代数学体系上使用的是经典时间观念，即：时间是连续的；这意味对一个运动的物体构建“时间-距离”的函数图像应当也是连续的，然而计算机程序却是以“帧”这个概念在运行模拟，每帧的时间不管固不固定总会导致计算机上物体的“时间-距离”函数图像出现跳跃（分段）：</p>
+<table>
+<tr>
+<td><img alt='现实中可能出现的匀速运动对象的“时间-距离”函数图像' src='../_imgs/pecker-tp-series.png'></img></td>
+<td><img alt='计算机可能出现的匀速运动对象的“时间-距离”函数图像' src='../_imgs/pecker-tp-break-1.png'></img></td>
+</tr>
+<tr>
+<td><p align=center>图1：现实中可能出现的匀速运动对象的“时间-距离”函数图像</p></td>
+<td><p align=center>图2：计算机可能出现的匀速运动对象的“时间-距离”函数图像</p></td>
+</tr>
+</table>
+
+<h3 id="高速隧穿"><a href="#高速隧穿" class="headerlink" title="高速隧穿"></a>高速隧穿</h3><p>由于现代CPU的计算效率非常快（快到循环每帧只需要几毫秒），这种分段模拟效果在模拟一些低速物体时是可以较好的拟合<a href="#%E8%BF%9E%E7%BB%AD%E6%80%A7">图1</a>的。</p>
+<p>然而一旦物体的速度很高，在帧模拟的情况下你就可能会看到物体在空间中在瞬移！假想有一堵墙在物体前方，高速运动的物体冲向这堵墙时却会无视阻拦直接若无其事地瞬移到墙后，而不是撞到墙上砸个稀巴烂或者把墙轰出一个大洞……这是我们所不希望看到的！</p>
+<table>
+<tr>
+<td><img src='../_imgs/pecker-tp-break-1.png'></img></td>
+<td><img src='../_imgs/pecker-tp-break-3.png'></img></td>
+<td><img src='../_imgs/pecker-tp-break-5.png'></img></td>
+</tr>
+<tr>
+<td colspan=3 align=center>
+<p>更高速的物体在“时间-距离”图像上呈现的分段曲线就更接近于“点”</p>
+</td>
+</tr>
+</table>
+
+
+<p>于是如何使<a href="#%E8%BF%9E%E7%BB%AD%E6%80%A7">图2</a>在不同速率参数下都可以拟近<a href="#%E8%BF%9E%E7%BB%AD%E6%80%A7">图1</a>成了构建物理模拟引擎的第一个要考虑的问题。</p>
+<h3 id="子模拟"><a href="#子模拟" class="headerlink" title="子模拟"></a>子模拟</h3><p>微积分思想告诉我们，只要将右侧图像的x分量切分到足够小，等到切分到无穷小时，再把获得的所有函数点统合起来便能完美拟近左侧图像。</p>
+<p>不过嘛……毕竟是在计算机上搞工程的，我们不可能无限的消耗计算机的算力来做无限切分。但好在现代CPU的效率非常快，</p>
+<h2 id="同时性"><a href="#同时性" class="headerlink" title="同时性"></a>同时性</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://timeentropy.github.io/2025/05/04/pecker_00.intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -159,7 +263,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/05/04/pecker_00.intro/" class="post-title-link" itemprop="url">对物理引擎的探索与思考</a>
+            <a href="/2025/05/04/pecker_00.intro/" class="post-title-link" itemprop="url">对物理引擎的探索与思考：00.引言</a>
         </h2>
 
         <div class="post-meta">
@@ -170,7 +274,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-05-04 11:10:29 / 修改时间：12:18:10" itemprop="dateCreated datePublished" datetime="2025-05-04T11:10:29+08:00">2025-05-04</time>
+              <time title="创建时间：2025-05-04 11:10:29 / 修改时间：14:53:37" itemprop="dateCreated datePublished" datetime="2025-05-04T11:10:29+08:00">2025-05-04</time>
             </span>
 
           
@@ -184,15 +288,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现代计算机在运行一个程序时总得使用一个死循环及一个布尔值模拟程序的生命周期。</p>
-<p>实时程序（尤其是游戏程序）在大循环下基本会分化出4个小循环用以处理不同的业务逻辑，如：<code>handle_input</code>（输入事件处理）、<code>update</code>（帧更新）、<code>fixed_update</code>（固定帧率更新&#x2F;物理更新）以及<code>render</code>（渲染更新）。</p>
+          <h2 id="死循环和四循环"><a href="#死循环和四循环" class="headerlink" title="死循环和四循环"></a>死循环和四循环</h2><p>现代计算机在运行一个程序时总得使用一个死循环及一个布尔值模拟程序的生命周期。</p>
+<p>实时程序（尤其是游戏程序）在大循环下基本会分化出4个小循环用以处理不同的业务逻辑，如：</p>
+<ul>
+<li><code>handle_input</code>（输入事件处理）</li>
+<li><code>update</code>（帧更新）</li>
+<li><code>fixed_update</code>（固定帧率更新&#x2F;物理更新）</li>
+<li><code>render</code>（渲染更新）。</li>
+</ul>
 <p>大致像这样：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++ Code</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">handle_input</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fixed_update</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">render</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="type">bool</span> running = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">while</span>(running) &#123;</span><br><span class="line">		<span class="built_in">handle_input</span>();</span><br><span class="line">		<span class="built_in">update</span>();</span><br><span class="line">		<span class="built_in">fixed_update</span>();</span><br><span class="line">		<span class="built_in">render</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>其中<code>fixed_update</code>以及<code>update</code>这样的函数需要按照不同的速率进入执行，因此程序员会准备时钟计算速率：</p>
+<h2 id="帧率"><a href="#帧率" class="headerlink" title="帧率"></a>帧率</h2><p>其中<code>fixed_update</code>以及<code>update</code>这样的函数需要按照不同的帧率进入执行，因此程序员会准备时钟计算帧率：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;chrono&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">handle_input</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fixed_update</span><span class="params">(<span class="type">double</span> delta)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">double</span> delta)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">render</span><span class="params">(<span class="type">double</span> delta)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">get_frame_delta</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">using</span> clock = std::chrono::steady_clock;</span><br><span class="line">	<span class="keyword">using</span> seconds = std::chrono::duration&lt;<span class="type">double</span>&gt;;</span><br><span class="line">	<span class="keyword">using</span> timepoint = std::chrono::time_point&lt;clock&gt;;</span><br><span class="line"></span><br><span class="line">	<span class="type">static</span> timepoint last = clock::<span class="built_in">now</span>();</span><br><span class="line">	timepoint curr = clock::<span class="built_in">now</span>();</span><br><span class="line">	seconds delta = curr - last;</span><br><span class="line">	last = curr;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> delta.<span class="built_in">count</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="type">bool</span> running = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="type">double</span> frame_delta = <span class="number">0.0</span>;</span><br><span class="line">	<span class="type">double</span> fixed_delta = <span class="number">1.0</span> / <span class="number">60.0</span>; <span class="comment">// 60 FPS</span></span><br><span class="line">	<span class="type">double</span> accumulator = <span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (running) &#123;</span><br><span class="line">		frame_delta = <span class="built_in">get_frame_delta</span>();</span><br><span class="line">		accumulator += frame_delta;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">handle_input</span>();</span><br><span class="line">		<span class="built_in">update</span>(frame_delta);</span><br><span class="line">		<span class="keyword">while</span> (accumulator &gt;= fixed_delta) &#123;</span><br><span class="line">			accumulator -= fixed_delta;</span><br><span class="line">			<span class="built_in">fixed_update</span>(fixed_delta);</span><br><span class="line">			<span class="built_in">render</span>(fixed_delta);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通常这4个小循环会由被封装过的不同引擎后端所执行，在此背景下之后的推文中我们将重点探索<code>fixed_update</code>背后的一个后端——物理引擎。</p>
+<p><a href="../_codes/pecker_00.schema-with-clock.cpp">离线代码</a></p>
+<p>通常这4个小循环会由被封装过的不同引擎后端所执行，在此背景下之后的博客中我们将重点探索<code>fixed_update</code>背后的一个后端——物理引擎。</p>
 
       
     </div>
@@ -274,12 +384,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
   </nav>
 </div>
+  <div class="sidebar-button motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
 
 
 
