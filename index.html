@@ -128,11 +128,6 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
-        <li class="menu-item menu-item-schedule">
-
-    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
-
-  </li>
   </ul>
 </nav>
 
@@ -156,95 +151,6 @@
 
           <div class="content index posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://timeentropy.github.io/2025/05/04/pecker_01.basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="TimeEntropy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TimeEntropy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/05/04/pecker_01.basic/" class="post-title-link" itemprop="url">对物理引擎的探索与思考：01.计算机在物理模拟上遇到的2大基本问题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2025-05-04 12:25:24 / 修改时间：14:58:30" itemprop="dateCreated datePublished" datetime="2025-05-04T12:25:24+08:00">2025-05-04</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="连续性"><a href="#连续性" class="headerlink" title="连续性"></a>连续性</h2><p>物理建立在现代数学体系上使用的是经典时间观念，即：时间是连续的；这意味对一个运动的物体构建“时间-距离”的函数图像应当也是连续的，然而计算机程序却是以“帧”这个概念在运行模拟，每帧的时间不管固不固定总会导致计算机上物体的“时间-距离”函数图像出现跳跃（分段）：</p>
-<table>
-<tr>
-<td><img alt='现实中可能出现的匀速运动对象的“时间-距离”函数图像' src='../_imgs/pecker-tp-series.png'></img></td>
-<td><img alt='计算机可能出现的匀速运动对象的“时间-距离”函数图像' src='../_imgs/pecker-tp-break-1.png'></img></td>
-</tr>
-<tr>
-<td><p align=center>图1：现实中可能出现的匀速运动对象的“时间-距离”函数图像</p></td>
-<td><p align=center>图2：计算机可能出现的匀速运动对象的“时间-距离”函数图像</p></td>
-</tr>
-</table>
-
-<h3 id="高速隧穿"><a href="#高速隧穿" class="headerlink" title="高速隧穿"></a>高速隧穿</h3><p>由于现代CPU的计算效率非常快（快到循环每帧只需要几毫秒），这种分段模拟效果在模拟一些低速物体时是可以较好的拟合<a href="#%E8%BF%9E%E7%BB%AD%E6%80%A7">图1</a>的。</p>
-<p>然而一旦物体的速度很高，在帧模拟的情况下你就可能会看到物体在空间中在瞬移！假想有一堵墙在物体前方，高速运动的物体冲向这堵墙时却会无视阻拦直接若无其事地瞬移到墙后，而不是撞到墙上砸个稀巴烂或者把墙轰出一个大洞……这是我们所不希望看到的！</p>
-<table>
-<tr>
-<td><img src='../_imgs/pecker-tp-break-1.png'></img></td>
-<td><img src='../_imgs/pecker-tp-break-3.png'></img></td>
-<td><img src='../_imgs/pecker-tp-break-5.png'></img></td>
-</tr>
-<tr>
-<td colspan=3 align=center>
-<p>更高速的物体在“时间-距离”图像上呈现的分段曲线就更接近于“点”</p>
-</td>
-</tr>
-</table>
-
-
-<p>于是如何使<a href="#%E8%BF%9E%E7%BB%AD%E6%80%A7">图2</a>在不同速率参数下都可以拟近<a href="#%E8%BF%9E%E7%BB%AD%E6%80%A7">图1</a>成了构建物理模拟引擎的第一个要考虑的问题。</p>
-<h3 id="子模拟"><a href="#子模拟" class="headerlink" title="子模拟"></a>子模拟</h3><p>微积分思想告诉我们，只要将右侧图像的x分量切分到足够小，等到切分到无穷小时，再把获得的所有函数点统合起来便能完美拟近左侧图像。</p>
-<p>不过嘛……毕竟是在计算机上搞工程的，我们不可能无限的消耗计算机的算力来做无限切分。但好在现代CPU的效率非常快，</p>
-<h2 id="同时性"><a href="#同时性" class="headerlink" title="同时性"></a>同时性</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
       
   
   
@@ -274,7 +180,20 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-05-04 11:10:29 / 修改时间：14:53:37" itemprop="dateCreated datePublished" datetime="2025-05-04T11:10:29+08:00">2025-05-04</time>
+              <time title="创建时间：2025-05-04 11:10:29 / 修改时间：16:03:22" itemprop="dateCreated datePublished" datetime="2025-05-04T11:10:29+08:00">2025-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机科学</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%89%A9%E7%90%86%E6%A8%A1%E6%8B%9F/" itemprop="url" rel="index"><span itemprop="name">物理模拟</span></a>
+                </span>
             </span>
 
           
@@ -384,9 +303,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
       </div>
   </nav>
 </div>
