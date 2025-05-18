@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"timeentropy.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="在本文中将以游戏引擎godot 4.4作为演示，逐步复刻出经典的贪吃蛇游戏玩法。 规则贪吃蛇，一个经典不衰的游戏玩法，在一个有限大小的房间中你需要扮演一条永远都吃不饱的蛇在屏幕中找寻并吞吃随机出现在各处的食物。 作为一条蛇，你每吃一口食物都会让你的体型成长一点，而在有限大小的空间中这意味着食物所可能出现的随机位置更少，同时你的可行动空间也会变小。随着体型越来越长，玩家必须尝试合理的安">
+  <meta name="description" content="在本文中将以游戏引擎godot 4.4作为演示，逐步复刻出经典的贪吃蛇游戏玩法。 规则 贪吃蛇，一个经典不衰的游戏玩法，在一个有限大小的房间中你需要扮演一条永远都吃不饱的蛇在屏幕中找寻并吞吃随机出现在各处的食物。 作为一条蛇，你每吃一口食物都会让你的体型成长一点，而在有限大小的空间中这意味着食物所可能出现的随机位置更少，同时你的可行动空间也会变小。随">
 <meta property="og:type" content="article">
 <meta property="og:title" content="godot复刻游戏玩法.00.贪吃蛇">
 <meta property="og:url" content="https://timeentropy.github.io/2025/05/07/godot-gameplay-snake/index.html">
 <meta property="og:site_name" content="TimeEntropy&#39;s Blog">
-<meta property="og:description" content="在本文中将以游戏引擎godot 4.4作为演示，逐步复刻出经典的贪吃蛇游戏玩法。 规则贪吃蛇，一个经典不衰的游戏玩法，在一个有限大小的房间中你需要扮演一条永远都吃不饱的蛇在屏幕中找寻并吞吃随机出现在各处的食物。 作为一条蛇，你每吃一口食物都会让你的体型成长一点，而在有限大小的空间中这意味着食物所可能出现的随机位置更少，同时你的可行动空间也会变小。随着体型越来越长，玩家必须尝试合理的安">
+<meta property="og:description" content="在本文中将以游戏引擎godot 4.4作为演示，逐步复刻出经典的贪吃蛇游戏玩法。 规则 贪吃蛇，一个经典不衰的游戏玩法，在一个有限大小的房间中你需要扮演一条永远都吃不饱的蛇在屏幕中找寻并吞吃随机出现在各处的食物。 作为一条蛇，你每吃一口食物都会让你的体型成长一点，而在有限大小的空间中这意味着食物所可能出现的随机位置更少，同时你的可行动空间也会变小。随">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://timeentropy.github.io/2025/05/07/godot-gameplay-snake/0.png">
 <meta property="og:image" content="https://timeentropy.github.io/2025/05/07/godot-gameplay-snake/1.jpg">
@@ -231,49 +231,64 @@
       
         <table>
 <tr>
-<td style='border:none'><img src="/2025/05/07/godot-gameplay-snake/0.png" class="" title="slug"></td>
-<td style='border:none'><img src="/2025/05/07/godot-gameplay-snake/1.jpg" class="" title="slug"></td>
+<td style="border:none">
+<img src="/2025/05/07/godot-gameplay-snake/0.png" class="" title="slug">
+</td>
+<td style="border:none">
+<img src="/2025/05/07/godot-gameplay-snake/1.jpg" class="" title="slug">
+</td>
 </tr>
 </table>
-
-<p>在本文中将以游戏引擎<a target="_blank" rel="noopener" href="https://godotengine.org/download/archive/4.4-stable/">godot 4.4</a>作为演示，逐步复刻出经典的贪吃蛇游戏玩法。</p>
-<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><p>贪吃蛇，一个经典不衰的游戏玩法，在一个有限大小的房间中你需要扮演一条永远都吃不饱的蛇在屏幕中找寻并吞吃随机出现在各处的食物。</p>
+<p>在本文中将以游戏引擎<a
+target="_blank" rel="noopener" href="https://godotengine.org/download/archive/4.4-stable/">godot
+4.4</a>作为演示，逐步复刻出经典的贪吃蛇游戏玩法。</p>
+<h2 id="规则">规则</h2>
+<p>贪吃蛇，一个经典不衰的游戏玩法，在一个有限大小的房间中你需要扮演一条永远都吃不饱的蛇在屏幕中找寻并吞吃随机出现在各处的食物。</p>
 <p>作为一条蛇，你每吃一口食物都会让你的体型成长一点，而在有限大小的空间中这意味着食物所可能出现的随机位置更少，同时你的可行动空间也会变小。随着体型越来越长，玩家必须尝试合理的安排蛇身的空间布局，这样才能诱引随机的食物出现在自己可以轻松抵达的区域内。</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><h3 id="工程"><a href="#工程" class="headerlink" title="工程"></a>工程</h3><p>打开godot项目管理器，创建一个名为<code>snake</code>的新项目。</p>
+<h2 id="准备">准备</h2>
+<h3 id="工程">工程</h3>
+<p>打开godot项目管理器，创建一个名为<code>snake</code>的新项目。</p>
 <p>打开<code>项目设置</code>，调整需要的参数：</p>
 <ul>
 <li><code>显示/窗口/拉伸/模式</code> -&gt; <code>viewport</code></li>
 <li><code>显示/窗口/拉伸/比例</code> -&gt; <code>keep_height</code></li>
 <li><code>显示/窗口/拉伸/缩放模式</code> -&gt; <code>integer</code></li>
-<li><code>渲染/纹理/画布纹理/默认纹理过滤</code> -&gt; <code>Nearest</code></li>
-<li><code>渲染/环境/默认清屏颜色</code> -&gt; <code>纯黑色(0, 0, 0, 255)</code></li>
+<li><code>渲染/纹理/画布纹理/默认纹理过滤</code> -&gt;
+<code>Nearest</code></li>
+<li><code>渲染/环境/默认清屏颜色</code> -&gt;
+<code>纯黑色(0, 0, 0, 255)</code></li>
 </ul>
 <p>我个人还会喜欢设置：</p>
 <ul>
-<li><code>编辑器/命名/节点名称编号分隔符</code> -&gt; <code>Underscore</code></li>
-<li><code>编辑器/命名/节点名称大小写</code> -&gt; <code>snake_case</code></li>
-<li><code>编辑器/命名/脚本名称大小写</code> -&gt; <code>snake_case</code></li>
+<li><code>编辑器/命名/节点名称编号分隔符</code> -&gt;
+<code>Underscore</code></li>
+<li><code>编辑器/命名/节点名称大小写</code> -&gt;
+<code>snake_case</code></li>
+<li><code>编辑器/命名/脚本名称大小写</code> -&gt;
+<code>snake_case</code></li>
 </ul>
 <p>哈哈，只是个人喜欢的命名习惯而已……😓</p>
 <p>打开编辑器设置：</p>
 <ul>
-<li><code>界面/检查器/默认属性名称样式</code> -&gt; <code>Raw</code></li>
+<li><code>界面/检查器/默认属性名称样式</code> -&gt;
+<code>Raw</code></li>
 </ul>
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>在<code>res://</code>下创建如下的目录结构，以便之后使用：</p>
+<h3 id="目录">目录</h3>
+<p>在<code>res://</code>下创建如下的目录结构，以便之后使用：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">res://</span><br><span class="line">    - audio</span><br><span class="line">    - prefabs</span><br><span class="line">    - states</span><br><span class="line">    - scenes</span><br><span class="line">    - translations</span><br><span class="line">    - ui</span><br></pre></td></tr></table></figure>
-
-<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><p>首先得有一个容纳所有必要元素的场景。</p>
+<h2 id="设计">设计</h2>
+<p>首先得有一个容纳所有必要元素的场景。</p>
 <p>在<code>scenes</code>目录下创建<code>game</code>2D场景，就在这里设计并测试我们的游戏实体吧……</p>
-<h3 id="房间"><a href="#房间" class="headerlink" title="房间"></a>房间</h3><p><code>game</code>节点下创建如下节点结构：</p>
+<h3 id="房间">房间</h3>
+<p><code>game</code>节点下创建如下节点结构：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- game</span><br><span class="line">    - room(Node2D)</span><br><span class="line">        - border(PanelContainer)</span><br><span class="line">        - grid(Node2D)</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li>设置<code>border</code>节点属性<code>Mouse/filter</code> -&gt; <code>Ignore</code></li>
+<li>设置<code>border</code>节点属性<code>Mouse/filter</code> -&gt;
+<code>Ignore</code></li>
 </ul>
 <p>场景面板中右键<code>room</code>节点，选择<code>将分支保存为场景</code>，保存至<code>res://prefabs/room.tscn</code></p>
 <p>打开预制体<code>room</code>，在根节点添加脚本<code>res://prefabs/room.gd</code>，添加内容如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">extends Node2D</span><br><span class="line"></span><br><span class="line">@export var room_size: Vector2i = Vector2i(4, 4)</span><br><span class="line">@export var cell_size: Vector2  = Vector2i(8, 8)</span><br><span class="line"></span><br><span class="line">@onready var border: PanelContainer = $border</span><br><span class="line"></span><br><span class="line">func _ready() -&gt; void:</span><br><span class="line">    init()</span><br><span class="line"></span><br><span class="line">func _get_region() -&gt; Rect2:</span><br><span class="line">    var s = cell_size * (room_size as Vector2)</span><br><span class="line">    return Rect2(-s / 2.0, s)</span><br><span class="line"></span><br><span class="line">func coords_to_position(coords:Vector2i) -&gt; Vector2:</span><br><span class="line">    return _get_region().position + cell_size / 2.0 + cell_size * (coords as Vector2)</span><br><span class="line"></span><br><span class="line">func init() -&gt; void:</span><br><span class="line">    border.position = _get_region().position</span><br><span class="line">    border.size = _get_region().size</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>init</code>函数根据<code>room_size</code>对网格中可见的<code>Sprite2D</code>进行排布</li>
 <li><code>coords_to_position</code>函数协助外部节点定位房间内的坐标</li>
@@ -284,20 +299,20 @@
 <table>
 <tr>
 <td>
-
 <ul>
 <li>添加修改类型<code>PanelContainer</code></li>
 <li>选择覆盖名为<code>panel</code>的<code>StyleBox</code>样式</li>
 <li>创建<code>StyleBoxFlat</code>样式赋予</li>
-<li>修改属性：<ul>
-<li><code>bg_color</code>            -&gt; <code>纯黑色(0, 0, 0, 255)</code></li>
-<li><code>border_width_left</code>   -&gt; <code>1</code></li>
-<li><code>border_width_top</code>    -&gt; <code>1</code></li>
-<li><code>border_width_right</code>  -&gt; <code>1</code></li>
+<li>修改属性：
+<ul>
+<li><code>bg_color</code> -&gt; <code>纯黑色(0, 0, 0, 255)</code></li>
+<li><code>border_width_left</code> -&gt; <code>1</code></li>
+<li><code>border_width_top</code> -&gt; <code>1</code></li>
+<li><code>border_width_right</code> -&gt; <code>1</code></li>
 <li><code>border_width_bottom</code> -&gt; <code>1</code></li>
-<li><code>border_color</code>        -&gt; <code>纯白色(255, 255, 255, 255)</code></li>
-</ul>
-</li>
+<li><code>border_color</code> -&gt;
+<code>纯白色(255, 255, 255, 255)</code></li>
+</ul></li>
 </ul>
 </td>
 <td>
@@ -305,24 +320,19 @@
 </td>
 <tr>
 <table>
-
 <p>可以看到场景中我们的<code>border</code>节点变成了一个方框：</p>
 <img src="/2025/05/07/godot-gameplay-snake/room-border-view.png" class="" title="slug">
-
-<h3 id="蛇"><a href="#蛇" class="headerlink" title="蛇"></a>蛇</h3><p><code>game</code>节点下创建如下节点结构：</p>
+<h3 id="蛇">蛇</h3>
+<p><code>game</code>节点下创建如下节点结构：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- game</span><br><span class="line">    - snake(Node2D)</span><br><span class="line">        - cell(Node2D)</span><br><span class="line">            - view(ColorRect)</span><br><span class="line">        - grid(Node2D)</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li>设置<code>view</code>节点的<code>size</code>和<code>position</code>分别为<code>(8, 8)</code>、<code>(-4, -4)</code>。</li>
-</ul>
-<img src="/2025/05/07/godot-gameplay-snake/snake-cell-view.png" class="" title="slug">
-<ul>
+<li>设置<code>view</code>节点的<code>size</code>和<code>position</code>分别为<code>(8, 8)</code>、<code>(-4, -4)</code>。
+<img src="/2025/05/07/godot-gameplay-snake/snake-cell-view.png" class="" title="slug"></li>
 <li>最后记得将<code>cell</code>节点设置成隐藏状态</li>
 </ul>
 <p>场景面板中右键<code>snake</code>节点，选择<code>将分支保存为场景</code>，保存至<code>res://prefabs/snake.tscn</code></p>
 <p>打开预制体<code>snake</code>，在根节点添加脚本<code>res://prefabs/snake.gd</code>，添加内容如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">extends Node2D</span><br><span class="line"></span><br><span class="line">@export var room: Node</span><br><span class="line"></span><br><span class="line">@onready var cell: Node2D = $cell</span><br><span class="line">@onready var grid: Node2D = $grid</span><br><span class="line"></span><br><span class="line">var bodies: Array[Vector2i] = []</span><br><span class="line"></span><br><span class="line">signal moved(target:Vector2i)</span><br><span class="line">signal die()</span><br><span class="line"></span><br><span class="line">enum DIRECTION &#123; LEFT, UP, RIGHT, DOWN &#125;</span><br><span class="line"></span><br><span class="line">func _ready() -&gt; void:</span><br><span class="line">    init((room.room_size - Vector2i.ONE) / 2, 2)</span><br><span class="line"></span><br><span class="line">func _get_direction(direction:DIRECTION) -&gt; Vector2i:</span><br><span class="line">    return &#123;</span><br><span class="line">        DIRECTION.LEFT  : Vector2i.LEFT ,</span><br><span class="line">        DIRECTION.UP    : Vector2i.UP   ,</span><br><span class="line">        DIRECTION.RIGHT : Vector2i.RIGHT,</span><br><span class="line">        DIRECTION.DOWN  : Vector2i.DOWN ,</span><br><span class="line">    &#125;[direction]</span><br><span class="line"></span><br><span class="line">func _update_view() -&gt; void:</span><br><span class="line">    var view_count = grid.get_child_count()</span><br><span class="line">    var body_count = bodies.size()</span><br><span class="line">    if view_count &lt; body_count:</span><br><span class="line">        for i in (body_count - view_count):</span><br><span class="line">            var new_section = cell.duplicate()</span><br><span class="line">            new_section.show()</span><br><span class="line">            grid.add_child(new_section)</span><br><span class="line">    else:</span><br><span class="line">        for i in (view_count - body_count):</span><br><span class="line">            grid.get_child(body_count + i).hide()</span><br><span class="line"></span><br><span class="line">    for i in bodies.size():</span><br><span class="line">        var sec = grid.get_child(i)</span><br><span class="line">        sec.show()</span><br><span class="line">        sec.position = room.coords_to_position(bodies[i])</span><br><span class="line"></span><br><span class="line">func init(coords:Vector2i, length:int, direction:DIRECTION = DIRECTION.RIGHT) -&gt; void:</span><br><span class="line">    bodies.clear()</span><br><span class="line">    for i in length:</span><br><span class="line">        bodies.append(coords - i * _get_direction(direction))</span><br><span class="line">    _update_view()</span><br><span class="line"></span><br><span class="line">func move(direction:DIRECTION) -&gt; void:</span><br><span class="line">    var next = bodies[0] + _get_direction(direction)</span><br><span class="line">    var ate_self = bodies.has(next) and not is_same(bodies[-1], next)</span><br><span class="line">    var out_side = not Rect2i(Vector2i.ZERO, room.room_size).has_point(next)</span><br><span class="line">    if ate_self or out_side:</span><br><span class="line">        die.emit()</span><br><span class="line">        return</span><br><span class="line">    moved.emit(next)</span><br><span class="line">    bodies.push_front(next)</span><br><span class="line">    bodies.pop_back()</span><br><span class="line">    _update_view()</span><br><span class="line">    </span><br><span class="line">func grow(direction:DIRECTION) -&gt; void:</span><br><span class="line">    var next = bodies[0] + _get_direction(direction)</span><br><span class="line">    bodies.push_back(next)</span><br><span class="line">    _update_view()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>_update_view</code>函数管理<code>grid</code>下生成的<code>cell</code>复制体，可视的<code>cells</code>与<code>bodies</code>存储的蛇身坐标一致（经由<code>room</code>的<code>coords_to_position</code>函数调整）。</li>
 <li><code>init</code>函数用于初始化蛇身的坐标、长度以及初始前进方向。</li>
@@ -330,48 +340,41 @@
 <li><code>grow</code>函数用于让蛇朝指定方向成长一格。</li>
 </ul>
 <p>回到<code>game</code>场景，添加<code>Camera2D</code>节点，将其<code>Camera2D/zoom</code>属性设置为<code>(8, 8)</code>。</p>
-<p>设置<code>snake</code>的<code>room</code>导出变量为<code>room</code>节点，按下<code>F6</code>测试<code>game</code>场景：</p>
-<img src="/2025/05/07/godot-gameplay-snake/snake-test.png" class="" title="slug">
-
-<h3 id="食物"><a href="#食物" class="headerlink" title="食物"></a>食物</h3><p><code>game</code>节点下创建如下节点结构：</p>
+<p>设置<code>snake</code>的<code>room</code>导出变量为<code>room</code>节点，按下<code>F6</code>测试<code>game</code>场景：
+<img src="/2025/05/07/godot-gameplay-snake/snake-test.png" class="" title="slug"></p>
+<h3 id="食物">食物</h3>
+<p><code>game</code>节点下创建如下节点结构：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- game</span><br><span class="line">    - food(Node2D)</span><br><span class="line">        - cell(Node2D)</span><br><span class="line">            - view(ColorRect)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>设置<code>view</code>节点的<code>color</code>为<code>纯红色(255, 0, 0, 255)</code>。</li>
-<li>设置<code>view</code>节点的<code>size</code>和<code>position</code>分别为<code>(8, 8)</code>、<code>(-4, -4)</code>。</li>
+<li>设置<code>view</code>节点的<code>size</code>和<code>position</code>分别为<code>(8, 8)</code>、<code>(-4, -4)</code>。
+<img src="/2025/05/07/godot-gameplay-snake/food-cell-view.png" class="" title="slug"></li>
 </ul>
-<img src="/2025/05/07/godot-gameplay-snake/food-cell-view.png" class="" title="slug">
-
 <p>场景面板中右键<code>food</code>节点，选择<code>将分支保存为场景</code>，保存至<code>res://prefabs/food.tscn</code></p>
 <p>打开预制体<code>food</code>，在根节点添加脚本<code>res://prefabs/food.gd</code>，添加内容如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">extends Node2D</span><br><span class="line"></span><br><span class="line">@export var room : Node</span><br><span class="line">@export var snake: Node</span><br><span class="line"></span><br><span class="line">@onready var cell: Node2D = $cell</span><br><span class="line"></span><br><span class="line">var coords: Vector2i</span><br><span class="line"></span><br><span class="line">signal generate_failed()</span><br><span class="line"></span><br><span class="line">func _ready() -&gt; void:</span><br><span class="line">    generate()</span><br><span class="line"></span><br><span class="line">func _update_view() -&gt; void:</span><br><span class="line">    cell.show()</span><br><span class="line">    cell.position = room.coords_to_position(coords)</span><br><span class="line"></span><br><span class="line">func generate() -&gt; void:</span><br><span class="line">    var cells = []</span><br><span class="line">    for y in room.room_size.y:</span><br><span class="line">        for x in room.room_size.x:</span><br><span class="line">            cells.append(Vector2i(x, y))</span><br><span class="line">    for s in snake.bodies:</span><br><span class="line">        cells.erase(s)</span><br><span class="line">    cell.hide()</span><br><span class="line">    if cells.is_empty():</span><br><span class="line">        generate_failed.emit()</span><br><span class="line">        return</span><br><span class="line">    coords = cells.pick_random()</span><br><span class="line">    _update_view()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>_update_view</code>函数直接更新<code>cell</code>节点的坐标，因为房间内同时只能存在一个食物，所以无需考虑管理更多的<code>cell</code>复制节点。</li>
 <li><code>generate</code>函数用于在房间内未被蛇身占据的随机一处地方生成食物，无法生成时会触发<code>generate_failed</code>信号。</li>
 </ul>
 <p>回到<code>game</code>场景，<code>food</code>的<code>room</code>导出变量设置为<code>room</code>节点、<code>snake</code>导出变量设置为<code>snake</code>节点，按下<code>F6</code>测试<code>game</code>场景：</p>
 <img src="/2025/05/07/godot-gameplay-snake/food-test.png" class="" title="slug">
-
-<h2 id="动起来！"><a href="#动起来！" class="headerlink" title="动起来！"></a>动起来！</h2><p>打开项目设置，顶栏切换到<code>输入映射</code>，添加4个事件并绑定相关的键位：</p>
-<ul>
-<li><code>snake_move_l</code>（move left）</li>
-<li><code>snake_move_u</code>（move up）</li>
-<li><code>snake_move_r</code>（move right）</li>
-<li><code>snake_move_d</code>（move down）</li>
-</ul>
+<h2 id="动起来">动起来！</h2>
+<p>打开项目设置，顶栏切换到<code>输入映射</code>，添加4个事件并绑定相关的键位：
+- <code>snake_move_l</code>（move left） -
+<code>snake_move_u</code>（move up） - <code>snake_move_r</code>（move
+right） - <code>snake_move_d</code>（move down）</p>
 <p><code>game</code>节点下创建如下节点结构：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- game</span><br><span class="line">    - player(Node)</span><br><span class="line">        - timer(Timer)</span><br></pre></td></tr></table></figure>
-
 <p>场景面板中右键<code>player</code>节点，选择<code>将分支保存为场景</code>，保存至<code>res://prefabs/player.tscn</code></p>
 <p>打开预制体<code>player</code>，在根节点添加脚本<code>res://prefabs/player.gd</code>，添加内容如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">extends Node</span><br><span class="line"></span><br><span class="line">@export var snake: Node</span><br><span class="line">@export var food : Node</span><br><span class="line"></span><br><span class="line">@onready var timer: Timer = $timer</span><br><span class="line"></span><br><span class="line">@onready var curr_direction = snake.DIRECTION.RIGHT</span><br><span class="line">@onready var next_direction = snake.DIRECTION.RIGHT</span><br><span class="line"></span><br><span class="line">func _ready() -&gt; void:</span><br><span class="line">    snake.moved.connect(_on_snake_moved)</span><br><span class="line">    snake.die.connect(_on_snake_die)</span><br><span class="line">    food.generate_failed.connect(_on_food_generate_failed)</span><br><span class="line"></span><br><span class="line">func _process(_delta:float) -&gt; void:</span><br><span class="line">    var COMMANDS = &#123;</span><br><span class="line">        &amp;&#x27;snake_move_l&#x27; : snake.DIRECTION.LEFT ,</span><br><span class="line">        &amp;&#x27;snake_move_u&#x27; : snake.DIRECTION.UP   ,</span><br><span class="line">        &amp;&#x27;snake_move_r&#x27; : snake.DIRECTION.RIGHT,</span><br><span class="line">        &amp;&#x27;snake_move_d&#x27; : snake.DIRECTION.DOWN ,</span><br><span class="line">    &#125;</span><br><span class="line">    for action in COMMANDS:</span><br><span class="line">        if Input.is_action_just_pressed(action):</span><br><span class="line">            var dir = COMMANDS[action]</span><br><span class="line">            if wrapi(dir + 2, 0, 4) != curr_direction:</span><br><span class="line">                next_direction = dir</span><br><span class="line"></span><br><span class="line">func _on_timer_timeout() -&gt; void:</span><br><span class="line">    curr_direction = next_direction</span><br><span class="line">    snake.move(curr_direction)</span><br><span class="line"></span><br><span class="line">func _on_snake_moved(target:Vector2i) -&gt; void:</span><br><span class="line">    if is_same(target, food.coords):</span><br><span class="line">        snake.grow(curr_direction)</span><br><span class="line">        food.generate()</span><br><span class="line"></span><br><span class="line">func _on_snake_die() -&gt; void:</span><br><span class="line">    timer.stop()</span><br><span class="line">    print(&#x27;YOU LOSE&#x27;)</span><br><span class="line"></span><br><span class="line">func _on_food_generate_failed() -&gt; void:</span><br><span class="line">    timer.stop()</span><br><span class="line">    print(&#x27;YOU WIN!&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>timer</code>节点需要连接<code>timeout</code>信号到脚本的<code>_on_timer_timeout</code>函数上。</li>
 </ul>
 <p>回到<code>game</code>场景，<code>player</code>的<code>snake</code>导出变量设置为<code>snake</code>节点、<code>food</code>导出变量设置为<code>food</code>节点，按下<code>F6</code>测试<code>game</code>场景：</p>
 <div id="dplayer0" class="dplayer" style="margin-bottom: 20px;"></div><script>var dplayer0 = new DPlayer({"element":document.getElementById("dplayer0"),"autoplay":1,"theme":"#FADFA3","loop":1,"preload":"auto","video":{"url":"/2025/05/07/godot-gameplay-snake/final-test.mp4"}});</script>
+
     </div>
 
     
@@ -410,6 +413,13 @@
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2025/05/09/math-busy-beaver/" rel="next" title="数学游戏：忙碌海狸（Busy Beaver）">
+      数学游戏：忙碌海狸（Busy Beaver） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -467,7 +477,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.2.</span> <span class="nav-text">目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%BF%E9%97%B4"><span class="nav-number">3.1.</span> <span class="nav-text">房间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%9B%87"><span class="nav-number">3.2.</span> <span class="nav-text">蛇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A3%9F%E7%89%A9"><span class="nav-number">3.3.</span> <span class="nav-text">食物</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E8%B5%B7%E6%9D%A5%EF%BC%81"><span class="nav-number">4.</span> <span class="nav-text">动起来！</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.2.</span> <span class="nav-text">目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%BF%E9%97%B4"><span class="nav-number">3.1.</span> <span class="nav-text">房间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%9B%87"><span class="nav-number">3.2.</span> <span class="nav-text">蛇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A3%9F%E7%89%A9"><span class="nav-number">3.3.</span> <span class="nav-text">食物</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E8%B5%B7%E6%9D%A5"><span class="nav-number">4.</span> <span class="nav-text">动起来！</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -481,20 +491,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -580,6 +590,8 @@
 
 
 
+
+  
 
   
 
